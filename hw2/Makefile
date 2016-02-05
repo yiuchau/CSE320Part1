@@ -9,12 +9,8 @@ all: $(BIN)
 $(BIN): $(SRC)
 	$(CC) $(CFLAGS) $^ -o $@
 
-.PHONY: clean run
+.PHONY: clean
 
 clean:
 	rm -f *.o $(BIN)
 
-stupid: $(SRC)
-	gcc -g $^ -o $(BIN)
-run: $(BIN)
-	./$(BIN)
