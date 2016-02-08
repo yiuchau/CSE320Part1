@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 
-#define USAGE(name) fprintf(stderr,	"\n%s Usage:	./mstat [OPTION]\n		./mstat -h 			Displays this help menu\n		./mstat -i [-u]		Displays statistics about instruction types.\n		./mstat -r [-u]		Displays information about the registers.\n		./mstat -o [-u] 	Displays number and percentage of opcodes used.\n\nOptional flags:\n			-u 		Displays human readable headers for the different outputs.\n", name);
+#define USAGE(name) fprintf(stderr,	"\n%s\n Usage:\t./mstat [OPTION]\n\t./mstat -h\tDisplays this help menu\n\t./mstat -i [-u]\tDisplays statistics about instruction types.\n\t./mstat -r [-u]\tDisplays information about the registers.\n\t./mstat -o [-u]\tDisplays number and percentage of opcodes used.\n\n\tOptional flags:\n\t\t-u\tDisplays human readable headers for the different outputs.\n", name);
+
 
 void rflagHandler(int uflag){
 	char buf[1024];
@@ -72,6 +73,48 @@ void rflagHandler(int uflag){
 }
 
 void oflagHandler(int uflag){
+	char buf[1024];
+	int opcodeCount[64] = {0};
+	int funcCount[64] = {0};
+	int opcode, numIns = 0, numFunc = 0;
+	char *endptr;
+
+	if(uflag){
+		fprintf(stdout, "OPCODE\tCOUNT\tPERCENTAGE\n");
+	}
+
+	while(fgets(buf, sizeof(buf), stdin) != NULL){
+		unsigned long long i = strtoull(buf, &endptr, 16);
+		if(*(endptr + 1) != '\0'){
+			fprintf(stderr, "Invalid hex instruction: %llu\n", i);
+			exit(EXIT_FAILURE);
+		}
+
+		numIns++;
+		opcode = i >> 26;
+
+		if(opcode == 0){
+			opcodeCount[0]++;
+			funcCount[(i & 0x3F)]++;
+			numFunc++;
+		}else{
+			opcodeCount[opcode]++;
+		} 
+			
+	}
+
+	for(int i = 0; i < 64; i++){
+		fprintf(stdout, "0x%x\t%d\t%.1f%%\n", i, opcodeCount[i], ((double)opcodeCount[i] / numIns) * 100);
+	}
+
+	fprintf(stdout, "\n");
+
+	if(uflag)
+		fprintf(stdout, "FUNC\tCOUNT\tPERCENTAGE\n");
+
+	for(int i = 0; i < 64; i++){
+		fprintf(stdout, "0x%x\t%d\t%.1f%%\n", i, funcCount[i], ((double)funcCount[i] / numFunc) * 100);
+	}
 
 	exit(EXIT_SUCCESS);
 }
@@ -119,7 +162,7 @@ int main(int argc, char*argv[])
 	while((opt = getopt(argc, argv, "irou")) != -1){
 		switch(opt) {
 			case 'h':
-				//USAGE();
+				USAGE(argv[0]);
 				exit(EXIT_SUCCESS);
 				break;
 			case 'i':
@@ -140,7 +183,7 @@ int main(int argc, char*argv[])
 				 */
 			default:
 				fprintf(stderr,"A bad option was provided.\n");
-				//USAGE();
+				USAGE(argv[0]);
 				exit(EXIT_FAILURE);
 				break;
 		}
@@ -148,7 +191,7 @@ int main(int argc, char*argv[])
 
 	if((iflag + oflag + rflag) != 1){
 		fprintf(stderr, "Invalid combination of options were provided.\n");
-		//USAGE();
+		USAGE(argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
