@@ -42,20 +42,16 @@
     +------------------------------------+    ------------
 
 */
+
 struct __attribute__((__packed__)) sf_header{
     uint64_t alloc : ALLOC_SIZE_BITS;
     uint64_t block_size : BLOCK_SIZE_BITS;
     uint64_t requested_size : REQST_SIZE_BITS;
 };
-
 typedef struct sf_header sf_header;
 
 struct __attribute__((__packed__)) sf_free_header {
-	sf_header header;
-    /* Note: These next two fields are only used when the block is free.
-     *       They are not part of header, but we place them here for ease
-     *       of access.
-     */
+    sf_header header;
     struct sf_free_header *next;
     struct sf_free_header *prev;
 };
@@ -146,17 +142,17 @@ void* sf_sbrk(size_t increment);
 void sf_snapshot(bool verbose);
 
 /**
- * Function which prints the contents of an allocated block in a human readable
- * format.
- * @param block sf_malloc memory allocated block.
+ * Function which prints human readable block format readable format.
+ * @param block Address of the block header in memory.
  */
 void sf_blockprint(void *block);
 
 /**
- * Takes data allocated using sf_malloc and subtracts from the address the
- * correct amount to now have the address point at the allocator block header.
- * This function internally uses sf_blockprint.
- * @param data Address data allocated with sf_malloc.
+ * Prints human readable block format from the address of the payload.
+ * IE. subtracts header size from the data pointer to obtain the address
+ * of the block header. Calls sf_blockprint internally to print.
+ * @param data Pointer to payload data in memory (value returned by
+ * sf_malloc).
  */
 void sf_varprint(void *data);
 
