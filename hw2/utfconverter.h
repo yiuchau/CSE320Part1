@@ -8,7 +8,6 @@
     #include <errno.h>
     #include <fcntl.h>
     #include <stdint.h>
-    #include "utfconverter.h"
 
     /* Constants for validate_args return values. */
     #define VALID_ARGS 0
@@ -22,7 +21,7 @@
     #define UTF8_CONT   0x80
 
     /* # of bytes a UTF-16 codepoint takes up */
-    #define CODE_UNIT_SIZE 1
+    #define CODE_UNIT_SIZE 2
 
     #define SURROGATE_PAIR 0x10000
 
