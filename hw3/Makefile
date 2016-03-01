@@ -20,7 +20,7 @@ $(LIB): $(SRC_OBJS)
 	ar -cr $@ $(OBJS)
 
 $(SRC_OBJS): $(SRC)
-	$(CC) -I $(INCLUDE) -c $^
+	$(CC) -I $(INCLUDE) $(CFLAGS) -c $^
 	mv *.o $(LIBS)
 
 .PHONY: clean
