@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -DCOLOR
+CFLAGS = -Wall -Werror -DCOLOR -g
 BIN = sfmmtest
 LIB = libsfutil.a
 LIBS = lib/
