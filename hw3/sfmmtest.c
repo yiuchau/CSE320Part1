@@ -60,6 +60,8 @@ int main(int argc, char *argv[]) {
     sf_varprint(value1);
     press_to_cont();
 
+    sf_snapshot(true);
+
     // Now assign a value
     printf("=== Test2: Assignment test ===\n");
     info("Attempting to assign value1 = %d\n", VALUE1_VALUE);
@@ -68,6 +70,8 @@ int main(int argc, char *argv[]) {
     // Now check its value
     check_prim_contents(value1, VALUE1_VALUE, "%d", "value1");
     press_to_cont();
+
+    sf_snapshot(true);
 
     printf("=== Test3: Allocate a second variable ===\n");
     info("Attempting to assign value2 = %ld\n", VALUE2_VALUE);
