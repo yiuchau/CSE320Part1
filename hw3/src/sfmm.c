@@ -132,7 +132,7 @@ void sf_free(void *ptr) {
 }
 
 void* sf_realloc(void *ptr, size_t size) {
-	sf_header* bp = ptr - SF_HEADER_SIZE;
+	sf_header* bp = (size_t)ptr - SF_HEADER_SIZE;
 	size_t asize;
 	size_t block_size = bp->block_size << 4;
 
@@ -150,7 +150,7 @@ void* sf_realloc(void *ptr, size_t size) {
 	if(asize <= block_size - 32){
 		//room to create new block
 		sf_header* newPtr = (sf_header*)((size_t)bp + asize);
-		printf("Test: newPtr - oldPtr = %li\n", (size_t)newPtr - (size_t)bp);
+		cse320("Test: newPtr - oldPtr = %li\n", (size_t)newPtr - (size_t)bp);
 
 		bp->requested_size = size;
 		bp->block_size = asize >> 4;
