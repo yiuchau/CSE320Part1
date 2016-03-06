@@ -37,6 +37,7 @@
  */
 
 sf_free_header* freelist_head = NULL;
+sf_free_header* nextFitPtr = NULL;
 size_t START = 0, END;
 
 
@@ -115,8 +116,9 @@ void *find_fit(size_t asize) {
 		extend_heap(PAGE_SIZE);
 	}
 
-	//find fit depending on policy: FIRST, LIFO
+	//find fit depending on policy: FIRST, NEXT
 	if(BP_POLICY == 0){
+		printf("FIRSTFIT\n");
 		ptr = freelist_head;
 		do{
 			if((ptr->header.block_size << 4) >= asize){
@@ -127,6 +129,23 @@ void *find_fit(size_t asize) {
 			ptr = ptr->next;
 
 		}while(ptr != NULL);
+	}else{
+		//NEXT FIT
+		printf("NEXTFIT\n");
+		ptr = nextFitPtr;
+		do{
+			if((ptr->header.block_size << 4) >= asize){
+				printf("Free block found at size %i for requested size %li\n",(ptr->header.block_size << 4),asize);
+				nextFitPtr = (ptr->next == NULL) ? freelist_head : ptr->next;
+				return ptr;
+			}
+			if(ptr->next == NULL){
+				//loop around from freelist_head
+				ptr = freelist_head;
+			}
+			else
+				ptr = ptr->next;
+		}while(ptr != nextFitPtr);
 	}
 
 	return NULL;
@@ -164,16 +183,9 @@ void place(void *bp, size_t size, size_t asize) {
 		fptr->alloc = 0;
 		fptr->block_size = sptr->header.block_size;
 		
-		//replace splintered block in freelist position of old block, removes old block as well
-		if(ptr->next != NULL){
-				ptr->next->prev = sptr;
-		}
-		if(ptr->prev != NULL){
-				ptr->prev->next = sptr;
-		}
-		if(ptr == freelist_head){
-			freelist_head = sptr;
-		}
+		//Remove old block and add splintered block to freelist.
+		removeFree(ptr);
+		addFree(sptr);
 
 		printf("Splintered block at %lx with size %i\n", (size_t)sptr, (sptr->header.block_size) << 4);
 		printf("Freelist_head at %lx\n", (size_t)freelist_head);
@@ -286,7 +298,6 @@ void removeFree(void *bp){
 
 	//if block being removed is free-list head, change head
 	if(ptr == freelist_head){
-		printf("New Free-list Head - Address:%lx\n",(size_t)(ptr->next));
 		freelist_head = ptr->next;
 	}
 
@@ -307,21 +318,58 @@ void removeFree(void *bp){
 void addFree(void *bp){
 	sf_free_header* ptr = (sf_free_header*)bp;
 	//add block to free list depending on policy
-	if(FL_POLICY == 0){
+	if(freelist_head != NULL){
 		//LIFO
-		if(freelist_head != NULL){
+		printf("LIFO POLICY\n");
+		if(FL_POLICY == 0){
 			ptr->next = freelist_head;
 			freelist_head->prev = ptr;
 			freelist_head = ptr;
 			ptr->prev = NULL;
+			return;
 		}else{
-			ptr->next = NULL;
-			ptr->prev = NULL;
-			freelist_head = ptr;
+			//ADDRESS
+			sf_free_header* aptr = freelist_head;
+			printf("ADDRESS POLICY\n");
+			while(aptr != NULL){
+				if(ptr < aptr){
+					printf("Block to add: %lx Aptr: %lx Freelist_head: %lx\n", (size_t)ptr, (size_t)aptr, (size_t)freelist_head);
+					if(aptr == freelist_head){
+						aptr->prev = ptr;
+						ptr->prev = NULL;
+						ptr->next = aptr;
+						freelist_head = ptr;
+						printAll();
+						return;
+					}else{
+						ptr->next = aptr;
+						ptr->prev = aptr->prev;
+						aptr->prev = ptr;
+						ptr->prev->next = ptr;
+						return;
+					}
+				}else{
+					if(aptr->next == NULL){
+						aptr->next = ptr;
+						ptr->prev = aptr;
+						ptr->next = NULL;
+						return;
+					}
+					aptr = aptr->next;
+				}
+			}
+
+
 		}
 	}else{
-		//Address
+		ptr->next = NULL;
+		ptr->prev = NULL;
+		freelist_head = ptr;
+		nextFitPtr = freelist_head;
+		return;
 	}
+	printf("Error in adding to freelist\n");
+	exit(EXIT_FAILURE);
 }
 
 void printAll(){
