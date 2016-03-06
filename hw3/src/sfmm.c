@@ -132,7 +132,7 @@ void sf_free(void *ptr) {
 }
 
 void* sf_realloc(void *ptr, size_t size) {
-	sf_header* bp = ptr - SF_HEADER_SIZE;
+	sf_header* bp = (sf_header*)((size_t)ptr - SF_HEADER_SIZE);
 	size_t asize;
 	size_t block_size = bp->block_size << 4;
 
