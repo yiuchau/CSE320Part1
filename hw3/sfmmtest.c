@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     // Print out title for first test
     printf("=== Test1: Allocation test ===\n");
     // Test #1: Allocate an integer
-    int *value1 = sf_malloc(sizeof(int));
+    int *value1 = sf_calloc(1,sizeof(int));
     null_check(value1, sizeof(int));
     payload_check(value1);
     // Print out the allocator block
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
     printf("=== Test3: Allocate a second variable ===\n");
     info("Attempting to assign value2 = %ld\n", VALUE2_VALUE);
-    long *value2 = sf_malloc(sizeof(long));
+    long *value2 = sf_calloc(1,sizeof(long));
     null_check(value2, sizeof(long));
     payload_check(value2);
     sf_varprint(value2);
@@ -105,8 +105,13 @@ int main(int argc, char *argv[]) {
     printf("=== Test7: 8192 byte allocation ===\n");
     void *memory = sf_malloc(8192);
     sf_varprint(memory);
+
+    memory = sf_realloc(memory, 4096);
+    sf_varprint(memory);
     sf_free(memory);
     press_to_cont();
+
+
 
     return EXIT_SUCCESS;
 }

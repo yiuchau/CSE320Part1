@@ -5,7 +5,15 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sfmm.h"
+
+
+#ifdef CSE320
+#define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+#else
+#define cse320(fmt, ...)
+#endif
 
 /**
  * If allocater compiled with no flags or -DLIFO provided
@@ -74,8 +82,8 @@ void* sf_malloc(size_t size) {
 	/* Search the free list for a fit */
 	if((bp = find_fit(asize)) != NULL){
 		place(bp, size, asize);
-		printf("block returned at %lx\n", ((size_t)bp + SF_HEADER_SIZE));
-		printAll();
+		cse320("block returned at %lx\n", ((size_t)bp + SF_HEADER_SIZE));
+		//printAll();
 		return (void *)((size_t)bp + SF_HEADER_SIZE);
 	}
 
@@ -86,8 +94,8 @@ void* sf_malloc(size_t size) {
 	}while((bp = find_fit(asize)) == NULL);
 
 	place(bp, size, asize);
-	printf("block returned at %lx\n", ((size_t)bp + SF_HEADER_SIZE));
-	printAll();
+	cse320("block returned at %lx\n", ((size_t)bp + SF_HEADER_SIZE));
+	//printAll();
 	return (void *)((size_t)bp + SF_HEADER_SIZE);
 }
 
@@ -98,16 +106,65 @@ void sf_free(void *ptr) {
 	sf_footer* fptr = (sf_footer*)((size_t)hptr + (hptr->header.block_size << 4) - SF_FOOTER_SIZE);
 	hptr->header.alloc = 0;
 	fptr->alloc = 0;
-	printf("Freeing block at %lx of size %i\n", (size_t)hptr, hptr->header.block_size << 4);
+	cse320("Freeing block at %lx of size %i\n", (size_t)hptr, hptr->header.block_size << 4);
 	coalesce(hptr);
 }
 
 void* sf_realloc(void *ptr, size_t size) {
+	sf_header* bp = ptr - SF_HEADER_SIZE;
+	size_t asize, block_size = bp->block_size << 4;
+
+	/* Adjust block size to include overhead and alignment reqs. */
+	if (size <= DSIZE)
+		asize = 2*DSIZE;
+	else
+		asize = DSIZE * ((size + (DSIZE) + (DSIZE - 1))/ DSIZE);
+
+	if(size == 0)
+		return NULL;
+
+	if(asize < block_size - 32){
+		//room to create new block
+		sf_header* newPtr = (sf_header*)(bp + asize - SF_HEADER_SIZE);
+		bp->requested_size = size;
+		bp->block_size = asize >> 4;
+		((sf_footer*)((size_t)bp + asize - SF_FOOTER_SIZE))->block_size = asize >> 4;
+		((sf_footer*)((size_t)bp + asize - SF_FOOTER_SIZE))->alloc = 1;
+		newPtr->block_size = (block_size - asize) >> 4;
+		newPtr->alloc = 0;
+		((sf_footer*)((size_t)bp + block_size - SF_FOOTER_SIZE))->block_size = (block_size - asize) >> 4;
+		addFree(newPtr);
+		cse320("Realloc returns smaller block of size %li\n",asize);
+		printAll();
+		return ptr;
+	}
+
+	if(asize > block_size){
+		//allocate new block, free old block
+		cse320("Realloc creating newer block of size %li\n",asize);
+		
+		bp = sf_malloc(size);
+		//copy data from ptr to bp
+		memcpy(bp, ptr, block_size - (2 * SF_HEADER_SIZE));
+		sf_free(ptr);
+		return bp;
+	}
+
+	cse320("No realloc done.");
     return NULL;
 }
 
 void* sf_calloc(size_t nmemb, size_t size) {
-    return NULL;
+	sf_free_header* bp = NULL;
+
+	if(nmemb == 0 || size == 0)
+		return NULL;
+
+	bp = sf_malloc(nmemb * size);
+
+	memset(bp, 0, nmemb * size);
+
+    return bp;
 }
 
 void *find_fit(size_t asize) {
@@ -118,11 +175,11 @@ void *find_fit(size_t asize) {
 
 	//find fit depending on policy: FIRST, NEXT
 	if(BP_POLICY == 0){
-		printf("FIRSTFIT\n");
+		cse320("FIRSTFIT\n");
 		ptr = freelist_head;
 		do{
 			if((ptr->header.block_size << 4) >= asize){
-				printf("Free block found at size %i for requested size %li\n",(ptr->header.block_size << 4),asize);
+				cse320("Free block found at size %i for requested size %li\n",(ptr->header.block_size << 4),asize);
 				return ptr;
 			}
 
@@ -131,11 +188,11 @@ void *find_fit(size_t asize) {
 		}while(ptr != NULL);
 	}else{
 		//NEXT FIT
-		printf("NEXTFIT\n");
+		cse320("NEXTFIT\n");
 		ptr = nextFitPtr;
 		do{
 			if((ptr->header.block_size << 4) >= asize){
-				printf("Free block found at size %i for requested size %li\n",(ptr->header.block_size << 4),asize);
+				cse320("Free block found at size %i for requested size %li\n",(ptr->header.block_size << 4),asize);
 				nextFitPtr = (ptr->next == NULL) ? freelist_head : ptr->next;
 				return ptr;
 			}
@@ -168,7 +225,7 @@ void place(void *bp, size_t size, size_t asize) {
 
 	if((block_size << 4) >= (asize + 32)){
 		//min block splinter reqs met, splinter block
-		printf("Attempt splinter\n");
+		cse320("Attempt splinter\n");
 		sf_free_header* sptr = (sf_free_header*)((size_t)ptr + asize);
 
 		ptr->header.block_size = asize >> 4;
@@ -187,8 +244,8 @@ void place(void *bp, size_t size, size_t asize) {
 		removeFree(ptr);
 		addFree(sptr);
 
-		printf("Splintered block at %lx with size %i\n", (size_t)sptr, (sptr->header.block_size) << 4);
-		printf("Freelist_head at %lx\n", (size_t)freelist_head);
+		cse320("Splintered block at %lx with size %i\n", (size_t)sptr, (sptr->header.block_size) << 4);
+		cse320("Freelist_head at %lx\n", (size_t)freelist_head);
 		
 	}else{
 		//asize changed to size of block
@@ -200,7 +257,7 @@ void place(void *bp, size_t size, size_t asize) {
 		//remove block from freelist
 		removeFree(bp);
 	}
-	printf("Allocating a block of size: %ld, saved as size %d\n", asize, (ptr->header.block_size << 4));
+	cse320("Allocating a block of size: %ld, saved as size %d\n", asize, (ptr->header.block_size << 4));
 }
 
 void* extend_heap(size_t size){
@@ -213,7 +270,7 @@ void* extend_heap(size_t size){
 			END = START + PAGE_SIZE;
 		}else
 			END = END + PAGE_SIZE;
-		printf("MEMSTART: %lx END: %lx\n", START, END);
+		cse320("MEMSTART: %lx END: %lx\n", START, END);
 		bp->header.alloc = 0;
 		bp->header.block_size = ((PAGE_SIZE + 15) >> 4); // Adjust size for alignment, fix start end with alignment padding
 		bp->next = NULL;
@@ -223,7 +280,7 @@ void* extend_heap(size_t size){
 		fptr->alloc = 0;
 		fptr->block_size = bp->header.block_size;
 
-		printf("Heap extended: Header: %lx Size: %i\n",(size_t)bp, ((bp->header.block_size) << 4));
+		cse320("Heap extended: Header: %lx Size: %i\n",(size_t)bp, ((bp->header.block_size) << 4));
 		return coalesce(bp);
 }
 
@@ -240,25 +297,25 @@ void* coalesce(void *ptr) {
 		prev_alloc = (size_t)(prev_bp->alloc);
 
 	}else{
-		printf("Prevbp is out of bounds.\n");
+		cse320("Prevbp is out of bounds.\n");
 	}
 
 	if((size_t)next_bp < END){
 		next_size = (size_t)(next_bp->block_size);
 		next_alloc = (size_t)(next_bp->alloc);
 	}else{
-		printf("Nextbp is out of bounds.\n");
+		cse320("Nextbp is out of bounds.\n");
 	}
 
-	printf("Coalescing - bp = %lx | prev = %lx | next = %lx\n", (size_t)bp, (size_t)prev_bp, (size_t)next_bp);
-	printf("Coalescing - prev_alloc = %li, size = %li| next_alloc = %li, size = %li\n", prev_alloc, prev_size << 4, next_alloc, next_size << 4);
+	cse320("Coalescing - bp = %lx | prev = %lx | next = %lx\n", (size_t)bp, (size_t)prev_bp, (size_t)next_bp);
+	cse320("Coalescing - prev_alloc = %li, size = %li| next_alloc = %li, size = %li\n", prev_alloc, prev_size << 4, next_alloc, next_size << 4);
 
 	fptr = (sf_footer*)((size_t)bp + (bp->block_size << 4) - SF_FOOTER_SIZE);
 	nfptr = (sf_footer*)((size_t)next_bp + (next_bp->block_size << 4) - SF_FOOTER_SIZE);
 
 	if(prev_alloc && next_alloc){
 		addFree(bp);
-		printf("Coalesce case 1: %lx - %i\n",(size_t)bp, (bp->block_size) << 4);
+		cse320("Coalesce case 1: %lx - %i\n",(size_t)bp, (bp->block_size) << 4);
 		return bp;
 	}
 	else if (prev_alloc && !next_alloc){
@@ -266,7 +323,7 @@ void* coalesce(void *ptr) {
 		nfptr->block_size = bp->block_size + next_size;
 		removeFree(next_bp);
 		addFree(bp);
-		printf("Coalesce case 2: %lx - %li\n",(size_t)bp, (bp->block_size + next_size) << 4);
+		cse320("Coalesce case 2: %lx - %li\n",(size_t)bp, (bp->block_size + next_size) << 4);
 		return bp;
 	}
 	else if(!prev_alloc && next_alloc){
@@ -274,7 +331,7 @@ void* coalesce(void *ptr) {
 		fptr->block_size = prev_size + bp->block_size;
 		removeFree(prev_bp);
 		addFree(prev_bp);
-		printf("Coalesce case 3: %lx - %li\n",(size_t)prev_bp, (prev_size + bp->block_size) << 4);
+		cse320("Coalesce case 3: %lx - %li\n",(size_t)prev_bp, (prev_size + bp->block_size) << 4);
 		return prev_bp;
 	}
 	else{
@@ -283,11 +340,11 @@ void* coalesce(void *ptr) {
 		removeFree(prev_bp);
 		removeFree(next_bp);
 		addFree(prev_bp);
-		printf("Coalesce case 4: %lx - %li\n",(size_t)prev_bp, (prev_size + bp->block_size + next_size) << 4);
+		cse320("Coalesce case 4: %lx - %li\n",(size_t)prev_bp, (prev_size + bp->block_size + next_size) << 4);
 		return prev_bp;
 	}
 
-	printAll();
+	//printAll();
 	return NULL;
 
 }
@@ -320,7 +377,7 @@ void addFree(void *bp){
 	//add block to free list depending on policy
 	if(freelist_head != NULL){
 		//LIFO
-		printf("LIFO POLICY\n");
+		cse320("LIFO POLICY\n");
 		if(FL_POLICY == 0){
 			ptr->next = freelist_head;
 			freelist_head->prev = ptr;
@@ -330,16 +387,16 @@ void addFree(void *bp){
 		}else{
 			//ADDRESS
 			sf_free_header* aptr = freelist_head;
-			printf("ADDRESS POLICY\n");
+			cse320("ADDRESS POLICY\n");
 			while(aptr != NULL){
 				if(ptr < aptr){
-					printf("Block to add: %lx Aptr: %lx Freelist_head: %lx\n", (size_t)ptr, (size_t)aptr, (size_t)freelist_head);
+					cse320("Block to add: %lx Aptr: %lx Freelist_head: %lx\n", (size_t)ptr, (size_t)aptr, (size_t)freelist_head);
 					if(aptr == freelist_head){
 						aptr->prev = ptr;
 						ptr->prev = NULL;
 						ptr->next = aptr;
 						freelist_head = ptr;
-						printAll();
+						//printAll();
 						return;
 					}else{
 						ptr->next = aptr;
@@ -368,15 +425,15 @@ void addFree(void *bp){
 		nextFitPtr = freelist_head;
 		return;
 	}
-	printf("Error in adding to freelist\n");
+	cse320("Error in adding to freelist\n");
 	exit(EXIT_FAILURE);
 }
 
 void printAll(){
-	printf("Printing.. \n");
+	cse320("Printing.. \n");
 	sf_free_header* ptr = freelist_head;
 	while(ptr != NULL){
-		printf("PrintAll: Ptr %lx\n", (size_t)ptr);
+		cse320("PrintAll: Ptr %lx\n", (size_t)ptr);
 		sf_blockprint(ptr);
 		ptr = ptr->next;
 	}
