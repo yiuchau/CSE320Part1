@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sfmm.h"
+#include <errno.h>
 
 
 #ifdef CSE320
@@ -60,7 +61,7 @@ void *find_fit(size_t asize);
 void *extend_heap(size_t words);
 
 void* coalesce(void *ptr);
-void addFree(void *bp);
+void* addFree(void *bp);
 void removeFree(void *bp);
 void place(void *bp, size_t size, size_t asize);
 void printAll();
@@ -70,8 +71,10 @@ void* sf_malloc(size_t size) {
 	sf_free_header*bp;
 
 	/* Ignore spurious requests */
-	if (size == 0)
+	if (size == 0 || size > ((size_t)4 * (1 << 30))){
+		errno = EINVAL; //invalid args
 		return NULL;
+	}
 
 	/* Adjust block size to include overhead and alignment reqs. */
 	if (size <= DSIZE)
@@ -82,24 +85,42 @@ void* sf_malloc(size_t size) {
 	/* Search the free list for a fit */
 	if((bp = find_fit(asize)) != NULL){
 		place(bp, size, asize);
+		if(bp == NULL){
+			errno = ENOMEM;
+			return NULL;
+		}
 		cse320("block returned at %lx\n", ((size_t)bp + SF_HEADER_SIZE));
 		//printAll();
+
 		return (void *)((size_t)bp + SF_HEADER_SIZE);
 	}
 
 	/* No fit found. Get more memory and place the block */
 	do{
-		if((bp = (sf_free_header*)extend_heap(PAGE_SIZE)) == NULL)
+		if((bp = (sf_free_header*)extend_heap(PAGE_SIZE)) == NULL){
+			errno = ENOMEM;
 			return NULL;
+		}
 	}while((bp = find_fit(asize)) == NULL);
 
 	place(bp, size, asize);
+
+	if(bp == NULL){
+		errno = ENOMEM;
+		return NULL;
+	}
+
 	cse320("block returned at %lx\n", ((size_t)bp + SF_HEADER_SIZE));
 	//printAll();
 	return (void *)((size_t)bp + SF_HEADER_SIZE);
 }
 
 void sf_free(void *ptr) {
+	//check if valid address
+	if((size_t)ptr < START || (size_t)ptr > END || ((size_t)ptr % 16 != 0)){
+		errno = EFAULT; //bad address
+		return;
+	}
 	// Adjust block header, footer
 	// Coalesce (which also adds resultant block to freelist depending on policy)
 	sf_free_header* hptr = (sf_free_header*)((size_t)ptr - SF_HEADER_SIZE);
@@ -120,8 +141,10 @@ void* sf_realloc(void *ptr, size_t size) {
 	else
 		asize = DSIZE * ((size + (DSIZE) + (DSIZE - 1))/ DSIZE);
 
-	if(size == 0)
+	if(size == 0){
+		errno = EINVAL; //invalid arg
 		return NULL;
+	}
 
 	if(asize < block_size - 32){
 		//room to create new block
@@ -133,10 +156,8 @@ void* sf_realloc(void *ptr, size_t size) {
 		newPtr->block_size = (block_size - asize) >> 4;
 		newPtr->alloc = 0;
 		((sf_footer*)((size_t)bp + block_size - SF_FOOTER_SIZE))->block_size = (block_size - asize) >> 4;
-		addFree(newPtr);
 		cse320("Realloc returns smaller block of size %li\n",asize);
-		printAll();
-		return ptr;
+		return addFree(ptr);
 	}
 
 	if(asize > block_size){
@@ -151,14 +172,17 @@ void* sf_realloc(void *ptr, size_t size) {
 	}
 
 	cse320("No realloc done.");
+	errno = ENOMEM;
     return NULL;
 }
 
 void* sf_calloc(size_t nmemb, size_t size) {
 	sf_free_header* bp = NULL;
 
-	if(nmemb == 0 || size == 0)
+	if(nmemb == 0 || size == 0){
+		errno = EINVAL;
 		return NULL;
+	}
 
 	bp = sf_malloc(nmemb * size);
 
@@ -262,6 +286,10 @@ void place(void *bp, size_t size, size_t asize) {
 
 void* extend_heap(size_t size){
 		sf_free_header* bp = (sf_free_header*)sf_sbrk(PAGE_SIZE);
+		if(bp == NULL){
+			errno = ENOMEM;
+			return NULL;
+		}
 		sf_footer* fptr;
 		//align block to 16 bytes
 		bp = (sf_free_header*)((size_t)bp + 8 - ((size_t)bp % DSIZE));
@@ -270,6 +298,7 @@ void* extend_heap(size_t size){
 			END = START + PAGE_SIZE;
 		}else
 			END = END + PAGE_SIZE;
+
 		cse320("MEMSTART: %lx END: %lx\n", START, END);
 		bp->header.alloc = 0;
 		bp->header.block_size = ((PAGE_SIZE + 15) >> 4); // Adjust size for alignment, fix start end with alignment padding
@@ -314,37 +343,34 @@ void* coalesce(void *ptr) {
 	nfptr = (sf_footer*)((size_t)next_bp + (next_bp->block_size << 4) - SF_FOOTER_SIZE);
 
 	if(prev_alloc && next_alloc){
-		addFree(bp);
 		cse320("Coalesce case 1: %lx - %i\n",(size_t)bp, (bp->block_size) << 4);
-		return bp;
+		return addFree(bp);
 	}
 	else if (prev_alloc && !next_alloc){
 		bp->block_size = bp->block_size + next_size;
 		nfptr->block_size = bp->block_size + next_size;
 		removeFree(next_bp);
-		addFree(bp);
 		cse320("Coalesce case 2: %lx - %li\n",(size_t)bp, (bp->block_size + next_size) << 4);
-		return bp;
+		return addFree(bp);
 	}
 	else if(!prev_alloc && next_alloc){
 		prev_bp->block_size = prev_size + bp->block_size;
 		fptr->block_size = prev_size + bp->block_size;
 		removeFree(prev_bp);
-		addFree(prev_bp);
 		cse320("Coalesce case 3: %lx - %li\n",(size_t)prev_bp, (prev_size + bp->block_size) << 4);
-		return prev_bp;
+		return addFree(prev_bp);
 	}
 	else{
 		prev_bp->block_size = prev_size + bp->block_size + next_size;
 		nfptr->block_size = prev_size + bp->block_size + next_size;
 		removeFree(prev_bp);
 		removeFree(next_bp);
-		addFree(prev_bp);
 		cse320("Coalesce case 4: %lx - %li\n",(size_t)prev_bp, (prev_size + bp->block_size + next_size) << 4);
-		return prev_bp;
+		return addFree(prev_bp);
 	}
 
 	//printAll();
+	errno = ENOMEM;
 	return NULL;
 
 }
@@ -372,7 +398,7 @@ void removeFree(void *bp){
 	}
 }
 
-void addFree(void *bp){
+void* addFree(void *bp){
 	sf_free_header* ptr = (sf_free_header*)bp;
 	//add block to free list depending on policy
 	if(freelist_head != NULL){
@@ -383,7 +409,7 @@ void addFree(void *bp){
 			freelist_head->prev = ptr;
 			freelist_head = ptr;
 			ptr->prev = NULL;
-			return;
+			return ptr;
 		}else{
 			//ADDRESS
 			sf_free_header* aptr = freelist_head;
@@ -397,20 +423,20 @@ void addFree(void *bp){
 						ptr->next = aptr;
 						freelist_head = ptr;
 						//printAll();
-						return;
+						return ptr;
 					}else{
 						ptr->next = aptr;
 						ptr->prev = aptr->prev;
 						aptr->prev = ptr;
 						ptr->prev->next = ptr;
-						return;
+						return ptr;
 					}
 				}else{
 					if(aptr->next == NULL){
 						aptr->next = ptr;
 						ptr->prev = aptr;
 						ptr->next = NULL;
-						return;
+						return ptr;
 					}
 					aptr = aptr->next;
 				}
@@ -423,10 +449,11 @@ void addFree(void *bp){
 		ptr->prev = NULL;
 		freelist_head = ptr;
 		nextFitPtr = freelist_head;
-		return;
+		return ptr;
 	}
 	cse320("Error in adding to freelist\n");
-	exit(EXIT_FAILURE);
+	errno = ENOMEM;
+	return NULL;
 }
 
 void printAll(){

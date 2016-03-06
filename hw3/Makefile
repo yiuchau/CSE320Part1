@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -DCOLOR -g -DLIFO -DNEXT -DCSE320
+CFLAGS = -Wall -Werror -DCOLOR -g -DADDRESS -DNEXT
 BIN = sfmmtest
 LIB = libsfutil.a
 LIBS = lib/

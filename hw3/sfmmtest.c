@@ -110,8 +110,5 @@ int main(int argc, char *argv[]) {
     sf_varprint(memory);
     sf_free(memory);
     press_to_cont();
-
-
-
     return EXIT_SUCCESS;
 }
