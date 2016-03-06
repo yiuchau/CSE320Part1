@@ -133,7 +133,8 @@ void sf_free(void *ptr) {
 
 void* sf_realloc(void *ptr, size_t size) {
 	sf_header* bp = ptr - SF_HEADER_SIZE;
-	size_t asize, block_size = bp->block_size << 4;
+	size_t asize;
+	size_t block_size = bp->block_size << 4;
 
 	/* Adjust block size to include overhead and alignment reqs. */
 	if (size <= DSIZE)
@@ -146,18 +147,26 @@ void* sf_realloc(void *ptr, size_t size) {
 		return NULL;
 	}
 
-	if(asize < block_size - 32){
+	if(asize <= block_size - 32){
 		//room to create new block
-		sf_header* newPtr = (sf_header*)(bp + asize - SF_HEADER_SIZE);
+		sf_header* newPtr = (sf_header*)((size_t)bp + asize);
+		printf("Test: newPtr - oldPtr = %li\n", (size_t)newPtr - (size_t)bp);
+
 		bp->requested_size = size;
 		bp->block_size = asize >> 4;
+
 		((sf_footer*)((size_t)bp + asize - SF_FOOTER_SIZE))->block_size = asize >> 4;
 		((sf_footer*)((size_t)bp + asize - SF_FOOTER_SIZE))->alloc = 1;
+
 		newPtr->block_size = (block_size - asize) >> 4;
 		newPtr->alloc = 0;
-		((sf_footer*)((size_t)bp + block_size - SF_FOOTER_SIZE))->block_size = (block_size - asize) >> 4;
+
+		((sf_footer*)((size_t)newPtr + block_size - asize - SF_FOOTER_SIZE))->block_size = (block_size - asize) >> 4;
+		((sf_footer*)((size_t)newPtr + block_size - asize - SF_FOOTER_SIZE))->alloc = 0;
+		addFree(newPtr);
 		cse320("Realloc returns smaller block of size %li\n",asize);
-		return addFree(ptr);
+		printAll();
+		return ptr;
 	}
 
 	if(asize > block_size){

@@ -106,9 +106,16 @@ int main(int argc, char *argv[]) {
     void *memory = sf_malloc(8192);
     sf_varprint(memory);
 
-    memory = sf_realloc(memory, 4096);
+    memory = sf_realloc(memory, 8);
     sf_varprint(memory);
     sf_free(memory);
     press_to_cont();
+
+    memory = sf_malloc(10);
+    sf_free(memory);
+    malloc(25);
+    malloc(30);
+    malloc(2);
+
     return EXIT_SUCCESS;
 }
