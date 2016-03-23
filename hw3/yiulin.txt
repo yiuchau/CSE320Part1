@@ -1,0 +1,925 @@
+Yiu Chau Lin, yiulin, 108548196, Score: 69/100
+Homework 3 - Dynamic Memory Allocator
+
+Compilation Tests (5/5)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/0     Check for illegal functions                                     ✔              EXIT_SUCCESS                             Checking files src/sfmm.c for illegal functions
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+src/sfmm.c:16:0: warning: "cse320" redefined
+ #define cse320(fmt, ...)
+ ^
+src/sfmm.c:14:0: note: this is the location of the previous definition
+ #define  cse320(fmt, ...) do{printf("CSE320: %s:%s:%d " fmt, __FILE__,__FUNCTION__, __LINE__, ##__VA_ARGS__);}while(0)
+ ^
+src/sfmm.c:28:0: warning: "FL_POLICY" redefined
+ #define FL_POLICY 0
+ ^
+src/sfmm.c:26:0: note: this is the location of the previous definition
+ #define FL_POLICY 1
+ ^
+src/sfmm.c:40:0: warning: "BP_POLICY" redefined
+ #define BP_POLICY 0
+ ^
+src/sfmm.c:38:0: note: this is the location of the previous definition
+ #define BP_POLICY 1
+ ^
+### No illegal functions found
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5/5     Compilation with -Wall -Werror                                  ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Basic Tests (21/30)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/2     Malloc an Integer                                               ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/2     Malloc an assign an Integer value                               ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/2     Malloc a second value & assign                                  ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/2     Check integer value is still correct                            ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/2     Free block and check header/footer values                       ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/2     Allocate a large block                                          ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1     Block Size Check: char                                          ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1     Block Size Check: short                                         ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1     Block Size Check: int                                           ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1     Block Size Check: double                                        ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1     Block Size Check: long double                                   ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1     Block Size Check: struct of 7737 bytes                          ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/3     Malloc for more memory than initialized                         ✘              SIGSEGV                                  Segmentation fault (core dumped)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/2     Malloc for more memory than 4GB                                 ✘              SIGSEGV                                  Segmentation fault (core dumped)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/4     external fragmentation. sf_sbrk for more space                  ✔                                                       ERROR: sbrk did not move to obtain more space.
+ERROR: sbrk obtain more space in 0, rather than 4096.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     Check next and prev pointers of free block at head of list      ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Managing Memory (0/5)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/5     Managing Memory?  No sbrk in small sizes or per request         ✔                                                       ERROR: sbrk moved to obtain more space when not needed. before: 0x7f3323bf9010, after: 0x7f3323bfa010
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Calloc and Realloc (8/15)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     callocTest                                                      ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/2     realloc to size 0, expect NULL                                  ✘              SIGSEGV                                  Segmentation fault (core dumped)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5/5     realloc to smaller size                                         ✔                                                       +------------------+------------------+------+
+ |  741945644 bytes |         32 bytes | 0000 | <- Header 0x7f2342eea048
+ +------------------+------------------+------+
+ | Next: 0x7f2342eea068                       |
+ +-------------------------------------------+
+ | Prev: (nil)                                |
+ +-------------------------------------------+
+ | ...                                        |
+ +------------------+------------------+------+
+ |           unused |         32 bytes | 0000 | <- Footer 0x7f2342eea060
+ +------------------+------------------+------+
+
+ +------------------+------------------+------+
+ |          0 bytes |       4016 bytes | 0000 | <- Header 0x7f2342eea068
+ +------------------+------------------+------+
+ | Next: (nil)                                |
+ +-------------------------------------------+
+ | Prev: 0x7f2342eea048                       |
+ +-------------------------------------------+
+ | ...                                        |
+ +------------------+------------------+------+
+ |           unused |       4016 bytes | 0000 | <- Footer 0x7f2342eeb010
+ +------------------+------------------+------+
+
+50
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/5     realloc to larger size                                          ✘              SIGSEGV                                  Segmentation fault (core dumped)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+List Management and Block Placement (10/20)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2/5     LIFO & FIRST                                                    ✔                                                       ERROR: Second allocation. sf_malloc(64) placed in wrong position.
+Expected free list sizes: LIFO: (80) -> (528) -> (1040) -> (32) -> (32) -> FREE (~48 bytes) -> NULL
+Your initial free list:
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7f095c350148 80
+0x7f095c3506c8 528
+0x7f095c350298 1040
+0x7f095c350018 32
+0x7f095c3501e8 32
+0x7f095c351028 4080
+First allocation of sf_malloc(970)
+Second allocation of sf_malloc(64)
+After second allocation of sf_malloc(64)
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7f095c350678 48
+0x7f095c3506c8 528
+0x7f095c350018 32
+0x7f095c3501e8 32
+0x7f095c351028 4080
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/5     LIFO & NEXT                                                     ✔                                                       ERROR: First allocation. sf_malloc(970) placed in wrong position.
+Expected free list sizes: LIFO: (80) -> (528) -> (1040) -> (32) -> (32) -> FREE (~48 bytes) -> NULL
+Your initial free list:
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7f5181acb148 80
+0x7f5181acb6c8 528
+0x7f5181acb298 1040
+0x7f5181acb018 32
+0x7f5181acb1e8 32
+0x7f5181acc028 4080
+First allocation of sf_malloc(970)
+After first allocation of sf_malloc(970)
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7f5181acc408 3088
+0x7f5181acb148 80
+0x7f5181acb6c8 528
+0x7f5181acb298 1040
+0x7f5181acb018 32
+0x7f5181acb1e8 32
+Second allocation of sf_malloc(64)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5/5     ADDR & FIRST                                                    ✔                                                       Expected free list sizes: ADDR: (32) -> (80) -> (32) -> (1040) -> (528) -> FREE (~48 bytes)-> NULL
+Your initial free list:
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7f51585f4018 32
+0x7f51585f4148 80
+0x7f51585f41e8 32
+0x7f51585f4298 1040
+0x7f51585f46c8 528
+0x7f51585f5028 4080
+First allocation of sf_malloc(970)
+Second allocation of sf_malloc(64)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0/5     ADDR & NEXT                                                     ✔                                                       ERROR: First allocation. sf_malloc(970) placed in wrong position.
+ERROR: Second allocation. sf_malloc(64) placed in wrong position.
+Expected free list sizes: ADDR: (32) -> (80) -> (32) -> (1040) -> (528) -> FREE (~48 bytes)-> NULL
+Your initial free list:
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7efffa959018 32
+0x7efffa959148 80
+0x7efffa9591e8 32
+0x7efffa959298 1040
+0x7efffa9596c8 528
+0x7efffa95a028 4080
+First allocation of sf_malloc(970)
+After first allocation of sf_malloc(970)
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7efffa959018 32
+0x7efffa959148 80
+0x7efffa9591e8 32
+0x7efffa959298 1040
+0x7efffa9596c8 528
+0x7efffa95a408 3088
+Second allocation of sf_malloc(64)
+After second allocation of sf_malloc(64)
+[1;34mSnapshot[0m: Explicit 8 8192
+[0;33m# 2016-03-23 11:16
+[0m0x7efffa959018 32
+0x7efffa9591e8 32
+0x7efffa959298 1040
+0x7efffa9596c8 528
+0x7efffa95a408 3088
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Coalescing (15/15)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     Coalesce Case 1: no coalescing                                  ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     Coalesce Case 2: Free block before                              ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     Coalesce case 3: Free after                                     ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     Coalesce case 4: free before and after                          ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3/3     Coalesce edge case 1: Do not coalesce before start of heap      ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Stress Test (10/10)
+Score   Test Name                                                       Test Executed? Notes                                    Output
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+10/10   Stress test                                                     ✔                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
